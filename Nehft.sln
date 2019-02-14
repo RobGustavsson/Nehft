@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nehft.Server", "Nehft\Nehft.Server.csproj", "{5DECBD26-2687-45F9-BBAF-57041FE3D3E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nehft.Server", "Nehft.Server\Nehft.Server.csproj", "{5DECBD26-2687-45F9-BBAF-57041FE3D3E2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nehft.Server.Tests", "Nehft.Server.Tests\Nehft.Server.Tests.csproj", "{E24443DA-7D10-46CB-B0D3-D56A15E8D56B}"
 EndProject
