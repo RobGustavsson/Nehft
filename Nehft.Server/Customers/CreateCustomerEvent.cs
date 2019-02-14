@@ -16,11 +16,5 @@ namespace Nehft.Server.Customers
             Email = email;
             Address = address;
         }
-
-        public void Accept(Aggregate aggregate)
-        {
-            var customer = (Customer)aggregate;
-            customer.Handle(this);
-        }
     }
 }
