@@ -4,10 +4,13 @@ using System.Collections.Generic;
 namespace Nehft.Server.Customers
 {
     public class Customer : Aggregate
-    {     
+    {
+        private readonly List<Animal> _animals = new List<Animal>();
         public Name Name { get; private set; }
         public EmailAddress Email { get; private set; }
         public Address Address { get; private set; }
+
+        public IEnumerable<Animal> Animals => _animals;
 
         public Customer(IEnumerable<IAggregateEvent> events)
         {
@@ -25,12 +28,34 @@ namespace Nehft.Server.Customers
             switch (@event)
             {
                 case CreateCustomerEvent createEvent:
+                    Id = createEvent.Id; 
                     Name = createEvent.Name;
                     Email = createEvent.Email;
                     Address = createEvent.Address;
                     break;
+                case AddAnimalEvent addAnimalEvent:
+                    _animals.Add(new Animal(addAnimalEvent.Name, addAnimalEvent.Type));
+                    break;
             }
         }
 
+        public void AddAnimal(string animalName, string animalType)
+        {
+            RaiseEvent(new AddAnimalEvent(Id, animalName, animalType));
+        }
+    }
+
+    public class AddAnimalEvent : IAggregateEvent
+    {
+        public string Name { get; }
+        public string Type { get; }
+        public Guid Id { get; }
+
+        public AddAnimalEvent(Guid id, string name, string type)
+        {
+            Id = id;
+            Name = name;
+            Type = type;
+        }
     }
 }
