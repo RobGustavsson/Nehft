@@ -4,14 +4,14 @@ using System.Linq;
 
 namespace Nehft.Server
 {
-    public abstract class Aggregate
+    public abstract class Aggregate<T> where T : Aggregate<T>
     {
         private readonly Queue<IAggregateEvent> _currentEvents = new Queue<IAggregateEvent>();
         public Guid Id { get; protected set; }
 
         protected void RaiseEvent(IAggregateEvent @event)
         {
-            ApplyEvent(@event);
+            RedirectToHandle.InvokeEvent((T)this, @event);
             _currentEvents.Enqueue(@event);
         }
 
@@ -22,8 +22,6 @@ namespace Nehft.Server
                 RaiseEvent(@event);
             }
         }
-
-        protected abstract void ApplyEvent(IAggregateEvent @event);
 
         public IReadOnlyCollection<IAggregateEvent> Events => _currentEvents.ToList();
 

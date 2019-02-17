@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Nehft.Server.Customers
 {
-    public class Customer : Aggregate
+    public class Customer : Aggregate<Customer>
     {
         private readonly List<Animal> _animals = new List<Animal>();
         public Name Name { get; private set; }
@@ -22,40 +22,23 @@ namespace Nehft.Server.Customers
             Id = id;
             RaiseEvent(new CreateCustomerEvent(id, name, email, address));
         }
-        
-        protected override void ApplyEvent(IAggregateEvent @event)
-        {
-            switch (@event)
-            {
-                case CreateCustomerEvent createEvent:
-                    Id = createEvent.Id; 
-                    Name = createEvent.Name;
-                    Email = createEvent.Email;
-                    Address = createEvent.Address;
-                    break;
-                case AddAnimalEvent addAnimalEvent:
-                    _animals.Add(new Animal(addAnimalEvent.Name, addAnimalEvent.Type));
-                    break;
-            }
-        }
 
         public void AddAnimal(string animalName, string animalType)
         {
             RaiseEvent(new AddAnimalEvent(Id, animalName, animalType));
         }
-    }
 
-    public class AddAnimalEvent : IAggregateEvent
-    {
-        public string Name { get; }
-        public string Type { get; }
-        public Guid Id { get; }
-
-        public AddAnimalEvent(Guid id, string name, string type)
+        private void Handle(CreateCustomerEvent @event)
         {
-            Id = id;
-            Name = name;
-            Type = type;
+            Id = @event.Id;
+            Name = @event.Name;
+            Email = @event.Email;
+            Address = @event.Address;
+        }
+
+        private void Handle(AddAnimalEvent @event)
+        {
+            _animals.Add(new Animal(@event.Name, @event.Type));
         }
     }
 }

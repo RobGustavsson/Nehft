@@ -44,8 +44,6 @@ namespace Nehft.Server.Customers
             return result.OnBoth<ObjectResult>(
                 x => Created("/api/customer", x),
                 BadRequest);
-
-
         }
     }
 }
