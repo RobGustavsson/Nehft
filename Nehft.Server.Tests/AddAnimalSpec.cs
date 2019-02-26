@@ -3,8 +3,9 @@ using System.Linq;
 using System.Net.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
+using Nehft.Server.Animals;
+using Nehft.Server.Animals.AddAnimal;
 using Nehft.Server.Customers;
-using Nehft.Server.Customers.AddAnimal;
 using Xunit;
 
 namespace Nehft.Server.Tests
@@ -29,23 +30,36 @@ namespace Nehft.Server.Tests
                 .the_user_adds_an_animal_to_the_customer(addAnimalCommand);
 
             Then
-                .the_animal_is_assigned_to_the_customer(customerId, "animal name", "horse");
-
+                .the_animal_is_persisted("animal name", "horse")
+                .the_animal_is_assigned_to_the_customer(customerId);
         }
 
-        private void the_animal_is_assigned_to_the_customer(Guid customerId, string name, string type)
+        private AddAnimalSpec the_animal_is_persisted(string animalName, string animalType)
         {
             using (var scope = Factory.Server.Host.Services.CreateScope())
             {
-                var repository = scope.ServiceProvider.GetRequiredService<ICustomerRepository>();
-                var customer = repository.Get(customerId);
+                var repository = scope.ServiceProvider.GetRequiredService<IAnimalRepository>();
+                var animal = repository.GetAll().Single();
 
-                var animal = customer.Animals.Single();
-                Assert.Equal(name, animal.Name);
-                Assert.Equal(type, animal.Type);
+                Assert.Equal(animalName, animal.Name);
+                Assert.Equal(animalType, animal.Type);
             }
+
+            return this;
         }
 
+        private void the_animal_is_assigned_to_the_customer(Guid customerId)
+        {
+            using (var scope = Factory.Server.Host.Services.CreateScope())
+            {
+                var customerRepository = scope.ServiceProvider.GetRequiredService<ICustomerRepository>();
+                var animalRepository = scope.ServiceProvider.GetRequiredService<IAnimalRepository>();
+                var customerAnimalId = customerRepository.Get(customerId).Animals.Single();
+                var storedAnimalId = animalRepository.GetAll().Single().Id;
+
+                Assert.Equal(storedAnimalId, customerAnimalId);
+            }
+        }
 
         private void the_user_adds_an_animal_to_the_customer(AddAnimalCommand command)
         {

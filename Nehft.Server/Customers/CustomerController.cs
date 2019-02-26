@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Nehft.Server.Customers.AddAnimal;
+using Nehft.Server.Animals.AddAnimal;
 using Nehft.Server.Customers.CreateCustomer;
 using Nehft.Server.Customers.GetCustomer;
 

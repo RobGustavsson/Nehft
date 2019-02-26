@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using Nehft.Server.Animals;
 using Nehft.Server.Customers;
 
 namespace Nehft.Server
@@ -19,6 +20,7 @@ namespace Nehft.Server
             services.AddAutoMapper();
 
             services.AddSingleton<ICustomerRepository>(x => new InMemoryCustomerRepository());
+            services.AddSingleton<IAnimalRepository>(x => new InMemoryAnimalRepository());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

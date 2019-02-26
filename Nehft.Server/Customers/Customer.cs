@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using Nehft.Server.Animals;
 
 namespace Nehft.Server.Customers
 {
     [SuppressMessage("ReSharper", "UnusedMember.Local")]
     public class Customer : Aggregate<Customer>
     {
-        private readonly List<Animal> _animals = new List<Animal>();
+        private readonly List<Guid> _animals = new List<Guid>();
         public Name Name { get; private set; }
         public EmailAddress Email { get; private set; }
         public Address Address { get; private set; }
 
-        public IEnumerable<Animal> Animals => _animals;
+        public IEnumerable<Guid> Animals => _animals;
 
         public Customer(IReadOnlyList<IAggregateEvent> events)
         {
@@ -27,9 +28,9 @@ namespace Nehft.Server.Customers
             RaiseEvent(new CreateCustomerEvent(id, name, email, address));
         }
 
-        public void AddAnimal(string animalName, string animalType)
+        public void AddAnimal(Guid animalId)
         {
-            RaiseEvent(new AddAnimalEvent(Id, animalName, animalType));
+            RaiseEvent(new AddAnimalEvent(Id, animalId));
         }
 
         private void Handle(CreateCustomerEvent @event)
@@ -42,7 +43,7 @@ namespace Nehft.Server.Customers
 
         private void Handle(AddAnimalEvent @event)
         {
-            _animals.Add(new Animal(@event.Name, @event.Type));
+            _animals.Add(@event.AnimalId);
         }
     }
 }

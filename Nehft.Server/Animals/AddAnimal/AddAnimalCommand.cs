@@ -1,7 +1,7 @@
 ﻿using System;
 using MediatR;
 
-namespace Nehft.Server.Customers.AddAnimal
+namespace Nehft.Server.Animals.AddAnimal
 {
     public class AddAnimalCommand : IRequest
     {

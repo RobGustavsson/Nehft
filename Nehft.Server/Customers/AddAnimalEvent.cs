@@ -4,15 +4,13 @@ namespace Nehft.Server.Customers
 {
     public class AddAnimalEvent : IAggregateEvent
     {
-        public string Name { get; }
-        public string Type { get; }
         public Guid EntityId { get; }
+        public Guid AnimalId { get; }
 
-        public AddAnimalEvent(Guid id, string name, string type)
+        public AddAnimalEvent(Guid id, Guid animalId)
         {
             EntityId = id;
-            Name = name;
-            Type = type;
+            AnimalId = animalId;
         }
     }
 }
