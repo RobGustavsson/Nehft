@@ -7,11 +7,11 @@ namespace Nehft.Server.Customers
         public Name Name { get; }
         public EmailAddress Email { get; }
         public Address Address { get; }
-        public Guid Id { get; }
+        public Guid EntityId { get; }
 
         public CreateCustomerEvent(Guid id, Name name, EmailAddress email, Address address)
         {
-            Id = id;
+            EntityId = id;
             Name = name;
             Email = email;
             Address = address;

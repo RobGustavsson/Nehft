@@ -6,11 +6,11 @@ namespace Nehft.Server.Customers
     {
         public string Name { get; }
         public string Type { get; }
-        public Guid Id { get; }
+        public Guid EntityId { get; }
 
         public AddAnimalEvent(Guid id, string name, string type)
         {
-            Id = id;
+            EntityId = id;
             Name = name;
             Type = type;
         }

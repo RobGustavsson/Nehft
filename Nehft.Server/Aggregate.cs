@@ -11,6 +11,11 @@ namespace Nehft.Server
 
         protected void RaiseEvent(IAggregateEvent @event)
         {
+            if (@event.EntityId != Id)
+            {
+                throw new InvalidEventException();
+            }
+
             RedirectToHandle.InvokeEvent((T)this, @event);
             _currentEvents.Enqueue(@event);
         }
@@ -25,5 +30,9 @@ namespace Nehft.Server
 
         public IReadOnlyCollection<IAggregateEvent> Events => _currentEvents.ToList();
 
+    }
+
+    public class InvalidEventException : Exception
+    {
     }
 }

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace Nehft.Server.Customers
 {
+    [SuppressMessage("ReSharper", "UnusedMember.Local")]
     public class Customer : Aggregate<Customer>
     {
         private readonly List<Animal> _animals = new List<Animal>();
@@ -12,8 +15,9 @@ namespace Nehft.Server.Customers
 
         public IEnumerable<Animal> Animals => _animals;
 
-        public Customer(IEnumerable<IAggregateEvent> events)
+        public Customer(IReadOnlyList<IAggregateEvent> events)
         {
+            Id = events.First().EntityId;
             Rehydrate(events);
         }
 
@@ -30,7 +34,7 @@ namespace Nehft.Server.Customers
 
         private void Handle(CreateCustomerEvent @event)
         {
-            Id = @event.Id;
+            Id = @event.EntityId;
             Name = @event.Name;
             Email = @event.Email;
             Address = @event.Address;
