@@ -11,7 +11,7 @@ namespace Nehft.Server
         {
             if (!Cache<T>.Dict.TryGetValue(@event.GetType(), out var info))
             {
-                return;
+                throw new EventNotHandledException();
             }
 
             try
@@ -32,5 +32,9 @@ namespace Nehft.Server
                 .Where(m => m.GetParameters().Length == 1)
                 .ToDictionary(m => m.GetParameters().First().ParameterType, m => m);
         }
+    }
+
+    public class EventNotHandledException : Exception
+    {
     }
 }
