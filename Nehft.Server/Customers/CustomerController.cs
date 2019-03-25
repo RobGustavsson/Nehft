@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Nehft.Server.Animals.AddAnimal;
+using Nehft.Server.Animals.AddHorse;
 using Nehft.Server.Customers.CreateCustomer;
 using Nehft.Server.Customers.GetCustomer;
 
@@ -29,7 +29,7 @@ namespace Nehft.Server.Customers
 
         [HttpPost]
         [Route("/api/customer/addAnimal")]
-        public async Task<IActionResult> Get(AddAnimalCommand command)
+        public async Task<IActionResult> Get(AddHorseCommand command)
         {
             //TODO: What should be returned?
             await _mediator.Send(command);

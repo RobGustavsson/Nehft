@@ -2,35 +2,35 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Nehft.Server.Animals
+namespace Nehft.Server.Horses
 {
-    public class Animal : Aggregate<Animal>
+    public class Horse : Aggregate<Horse>
     {
         public string Name { get; private set; }
         public string Type { get; private set; }
 
-        public Animal(Guid id, string name, string type)
+        public Horse(Guid id, string name, string type)
         {
             Id = id;
-            RaiseEvent(new CreateAnimalEvent(id, name, type));
+            RaiseEvent(new CreateHorseEvent(id, name, type));
         }
 
-        public Animal(IReadOnlyList<IAggregateEvent> events)
+        public Horse(IReadOnlyList<IAggregateEvent> events)
         {
             Id = events.First().EntityId;
             Rehydrate(events);
         }
 
-        public void Handle(CreateAnimalEvent @event)
+        private void Handle(CreateHorseEvent @event)
         {
             Name = @event.Name;
             Type = @event.Type;
         }
     }
 
-    public class CreateAnimalEvent : IAggregateEvent
+    public class CreateHorseEvent : IAggregateEvent
     {
-        public CreateAnimalEvent(Guid entityId, string name, string type)
+        public CreateHorseEvent(Guid entityId, string name, string type)
         {
             EntityId = entityId;
             Name = name;

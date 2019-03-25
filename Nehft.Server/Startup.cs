@@ -20,7 +20,7 @@ namespace Nehft.Server
             services.AddAutoMapper();
 
             services.AddSingleton<ICustomerRepository>(x => new InMemoryCustomerRepository());
-            services.AddSingleton<IAnimalRepository>(x => new InMemoryAnimalRepository());
+            services.AddSingleton<IHorseRepository>(x => new InMemoryHorseRepository());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

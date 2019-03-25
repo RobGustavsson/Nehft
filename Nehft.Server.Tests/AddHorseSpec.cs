@@ -3,14 +3,14 @@ using System.Linq;
 using System.Net.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
-using Nehft.Server.Animals;
-using Nehft.Server.Animals.AddAnimal;
 using Nehft.Server.Customers;
+using Nehft.Server.Horses;
+using Nehft.Server.Horses.AddHorse;
 using Xunit;
 
 namespace Nehft.Server.Tests
 {
-    public class AddAnimalSpec : SpecBase<AddAnimalSpec>
+    public class AddHorseSpec : SpecBase<AddHorseSpec>
     {
         [Fact]
         public void Users_can_add_animals_to_customers()
@@ -21,39 +21,39 @@ namespace Nehft.Server.Tests
             var emailAddress = EmailAddress.Create("my@awesome.email").Value();
             var customer = new Customer(customerId, name, emailAddress, address);
 
-            var addAnimalCommand = new AddAnimalCommand(customerId,"animal name", "horse");
+            var addHorseCommand = new AddHorseCommand(customerId,"animal name", "horse");
 
             Given
                 .a_customer(customer);
 
             When
-                .the_user_adds_an_animal_to_the_customer(addAnimalCommand);
+                .the_user_adds_a_horse_to_the_customer(addHorseCommand);
 
             Then
-                .the_animal_is_persisted("animal name", "horse")
-                .the_animal_is_assigned_to_the_customer(customerId);
+                .the_horse_is_persisted("animal name", "horse")
+                .the_horse_is_assigned_to_the_customer(customerId);
         }
 
-        private AddAnimalSpec the_animal_is_persisted(string animalName, string animalType)
+        private AddHorseSpec the_horse_is_persisted(string horseName, string horseType)
         {
             using (var scope = Factory.Server.Host.Services.CreateScope())
             {
-                var repository = scope.ServiceProvider.GetRequiredService<IAnimalRepository>();
-                var animal = repository.GetAll().Single();
+                var repository = scope.ServiceProvider.GetRequiredService<IHorseRepository>();
+                var actualHorse = repository.GetAll().Single();
 
-                Assert.Equal(animalName, animal.Name);
-                Assert.Equal(animalType, animal.Type);
+                Assert.Equal(horseName, actualHorse.Name);
+                Assert.Equal(horseType, actualHorse.Type);
             }
 
             return this;
         }
 
-        private void the_animal_is_assigned_to_the_customer(Guid customerId)
+        private void the_horse_is_assigned_to_the_customer(Guid customerId)
         {
             using (var scope = Factory.Server.Host.Services.CreateScope())
             {
                 var customerRepository = scope.ServiceProvider.GetRequiredService<ICustomerRepository>();
-                var animalRepository = scope.ServiceProvider.GetRequiredService<IAnimalRepository>();
+                var animalRepository = scope.ServiceProvider.GetRequiredService<IHorseRepository>();
                 var customerAnimalId = customerRepository.Get(customerId).Animals.Single();
                 var storedAnimalId = animalRepository.GetAll().Single().Id;
 
@@ -61,7 +61,7 @@ namespace Nehft.Server.Tests
             }
         }
 
-        private void the_user_adds_an_animal_to_the_customer(AddAnimalCommand command)
+        private void the_user_adds_a_horse_to_the_customer(AddHorseCommand command)
         {
             var response = Client.PostAsJsonAsync("/api/customer/addAnimal", command).Result;
             response.EnsureSuccessStatusCode();
@@ -76,7 +76,7 @@ namespace Nehft.Server.Tests
             }
         }
 
-        public AddAnimalSpec(WebApplicationFactory<Startup> factory) : base(factory)
+        public AddHorseSpec(WebApplicationFactory<Startup> factory) : base(factory)
         {
         }
     }
