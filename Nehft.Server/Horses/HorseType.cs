@@ -1,4 +1,4 @@
-﻿namespace Nehft.Server.Horses.AddHorse
+﻿namespace Nehft.Server.Horses
 {
     public enum HorseType
     {
