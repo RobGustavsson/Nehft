@@ -23,7 +23,7 @@ namespace Nehft.Server.Horses.AddHorse
             var animalId = Guid.NewGuid();
             var animal = new Horse(animalId, request.Name, request.Type, request.Breed, request.Exterior, request.History, request.YearOfBirth, request.Address);
 
-            customer.AddAnimal(animalId);
+            customer.AddHorse(animalId);
 
             _customerRepository.Save(customer);
             _horseRepository.Save(animal);

@@ -8,12 +8,12 @@ namespace Nehft.Server.Customers
     [SuppressMessage("ReSharper", "UnusedMember.Local")]
     public class Customer : Aggregate<Customer>
     {
-        private readonly List<Guid> _animals = new List<Guid>();
+        private readonly List<Guid> _horses = new List<Guid>();
         public Name Name { get; private set; }
         public EmailAddress Email { get; private set; }
         public Address Address { get; private set; }
 
-        public IEnumerable<Guid> Animals => _animals;
+        public IEnumerable<Guid> Horses => _horses;
 
         public Customer(IReadOnlyList<IAggregateEvent> events)
         {
@@ -27,9 +27,9 @@ namespace Nehft.Server.Customers
             RaiseEvent(new CreateCustomerEvent(id, name, email, address));
         }
 
-        public void AddAnimal(Guid animalId)
+        public void AddHorse(Guid horseId)
         {
-            RaiseEvent(new AddAnimalEvent(Id, animalId));
+            RaiseEvent(new AddHorseEvent(Id, horseId));
         }
 
         private void Handle(CreateCustomerEvent @event)
@@ -40,9 +40,9 @@ namespace Nehft.Server.Customers
             Address = @event.Address;
         }
 
-        private void Handle(AddAnimalEvent @event)
+        private void Handle(AddHorseEvent @event)
         {
-            _animals.Add(@event.AnimalId);
+            _horses.Add(@event.HorseId);
         }
     }
 }

@@ -74,7 +74,7 @@ namespace Nehft.Server.Tests
             {
                 var customerRepository = scope.ServiceProvider.GetRequiredService<ICustomerRepository>();
                 var animalRepository = scope.ServiceProvider.GetRequiredService<IHorseRepository>();
-                var customerAnimalId = customerRepository.Get(customerId).Animals.Single();
+                var customerAnimalId = customerRepository.Get(customerId).Horses.Single();
                 var storedAnimalId = animalRepository.GetAll().Single().Id;
 
                 Assert.Equal(storedAnimalId, customerAnimalId);
