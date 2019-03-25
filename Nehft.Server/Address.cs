@@ -1,6 +1,8 @@
-﻿namespace Nehft.Server.Customers
+﻿using System.Collections.Generic;
+
+namespace Nehft.Server
 {
-    public class Address
+    public class Address : ValueObject
     {
         public string Street { get; }
         public string Number { get; }
@@ -38,6 +40,14 @@
             }
 
             return Result<Address, string>.Success(new Address(street, number, town,zipcode));
+        }
+
+        protected override IEnumerable<object> GetEqualityComponents()
+        {
+            yield return Street;
+            yield return Number;
+            yield return Town;
+            yield return Zipcode;
         }
     }
 }

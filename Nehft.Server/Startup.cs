@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using Nehft.Server.Animals;
 using Nehft.Server.Customers;
+using Nehft.Server.Horses;
 
 namespace Nehft.Server
 {

@@ -21,28 +21,48 @@ namespace Nehft.Server.Tests
             var emailAddress = EmailAddress.Create("my@awesome.email").Value();
             var customer = new Customer(customerId, name, emailAddress, address);
 
-            var addHorseCommand = new AddHorseCommand(customerId,"animal name", "horse");
+            var addHorseDto = new AddHorseDto(
+                customerId,
+                "animal name",
+                "stallion",
+                "best horse breed",
+                1989, 
+                "a bit fat", 
+                "never been sick", 
+                "the street", 
+                "1", 
+                "the town", 
+                "zippy");
 
             Given
                 .a_customer(customer);
 
             When
-                .the_user_adds_a_horse_to_the_customer(addHorseCommand);
+                .the_user_adds_a_horse_to_the_customer(addHorseDto);
 
             Then
-                .the_horse_is_persisted("animal name", "horse")
+                .the_horse_is_persisted(addHorseDto)
                 .the_horse_is_assigned_to_the_customer(customerId);
         }
 
-        private AddHorseSpec the_horse_is_persisted(string horseName, string horseType)
+        private AddHorseSpec the_horse_is_persisted(AddHorseDto dto)
         {
+            var horseType = Enum.Parse<HorseType>(dto.Type, true);
+            var address = Address.Create(dto.Street, dto.HouseNumber, dto.Town, dto.ZipCode).Value();
+
             using (var scope = Factory.Server.Host.Services.CreateScope())
             {
                 var repository = scope.ServiceProvider.GetRequiredService<IHorseRepository>();
                 var actualHorse = repository.GetAll().Single();
 
-                Assert.Equal(horseName, actualHorse.Name);
+                Assert.Equal(dto.Name, actualHorse.Name);
                 Assert.Equal(horseType, actualHorse.Type);
+                Assert.Equal(dto.Breed, actualHorse.Breed);
+                Assert.Equal(dto.YearOfBirth, actualHorse.YearOfBirth);
+                Assert.Equal(dto.History, actualHorse.History);
+                Assert.Equal(dto.Exterior, actualHorse.Exterior);
+                Assert.Equal(address, actualHorse.Address);
+
             }
 
             return this;
@@ -61,9 +81,9 @@ namespace Nehft.Server.Tests
             }
         }
 
-        private void the_user_adds_a_horse_to_the_customer(AddHorseCommand command)
+        private void the_user_adds_a_horse_to_the_customer(AddHorseDto dto)
         {
-            var response = Client.PostAsJsonAsync("/api/customer/addAnimal", command).Result;
+            var response = Client.PostAsJsonAsync("/api/customer/addHorse", dto).Result;
             response.EnsureSuccessStatusCode();
         }
 

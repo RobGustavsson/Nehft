@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Nehft.Server.Customers;
 
-namespace Nehft.Server.Animals.AddHorse
+namespace Nehft.Server.Horses.AddHorse
 {
     public class AddHorseCommandHandler : IRequestHandler<AddHorseCommand>
     {
@@ -21,7 +21,7 @@ namespace Nehft.Server.Animals.AddHorse
         {
             var customer = _customerRepository.Get(request.Customer);
             var animalId = Guid.NewGuid();
-            var animal = new Horse(animalId, request.Name, request.Type);
+            var animal = new Horse(animalId, request.Name, request.Type, request.Breed, request.Exterior, request.History, request.YearOfBirth, request.Address);
 
             customer.AddAnimal(animalId);
 

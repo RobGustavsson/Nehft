@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Nehft.Server.Animals.AddHorse;
 using Nehft.Server.Customers.CreateCustomer;
 using Nehft.Server.Customers.GetCustomer;
+using Nehft.Server.Horses.AddHorse;
 
 namespace Nehft.Server.Customers
 {
@@ -28,12 +28,20 @@ namespace Nehft.Server.Customers
         }
 
         [HttpPost]
-        [Route("/api/customer/addAnimal")]
-        public async Task<IActionResult> Get(AddHorseCommand command)
+        [Route("/api/customer/addHorse")]
+        public async Task<IActionResult> Get(AddHorseDto dto)
         {
-            //TODO: What should be returned?
-            await _mediator.Send(command);
-            return Ok();
+            var command = AddHorseCommand.Create(dto.Customer, dto.Name, dto.Type, dto.Breed, dto.YearOfBirth, dto.Exterior, dto.History, dto.Street, dto.HouseNumber, dto.Town, dto.ZipCode);
+
+            return await command.OnBoth<Task<ActionResult>>(async x =>
+                {
+                    await _mediator.Send(x);
+                    //TODO: What should be returned?
+                    return Ok();
+                },
+                async error => await Task.FromResult(NotFound(error)));
+
+
         }
 
         [HttpPost]
