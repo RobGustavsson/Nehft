@@ -1,26 +1,35 @@
 # Nehft
 
-# Domain:
+## TODO
+
+- [ ] Add journal to horse
+- [ ] Persist domain between startups
+- [ ] Create frontend
+
+## Domain:
 
 Customer
-	Kundnummer
-	Namn
-	Address
-	Epost (ej krav)
+
+	- Kundnummer
+	- Namn
+	- Address
+	- Epost (ej krav)
 
 Häst
-	namn (fritext)
-	kön (sto, vallack, hingst)
-	ras (fritext)
-	ålder (årtal den är född)
-	Exteriör(fet, smal, tränad osv)
-	Boende (address till stallet)
-	Sjukdomshistoria
+
+	- namn (fritext)
+	- kön (sto, vallack, hingst)
+	- ras (fritext)
+	- ålder (årtal den är född)
+	- Exteriör(fet, smal, tränad osv)
+	- Boende (address till stallet)
+	- Sjukdomshistoria
 
 Journal
-	Datum
-	Upptäckter
-	Utfört arbete
-	Resultat
-	Uppföljning och hemgångsråd
+
+	- Datum
+	- Upptäckter
+	- Utfört arbete
+	- Resultat
+	- Uppföljning och hemgångsråd
 	
