@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Nehft.Server.Horses
 {
-    public class Horse : Aggregate<Horse>
+    public partial class Horse : Aggregate<Horse>
     {
         public string Name { get; private set; }
         public HorseType Type { get; private set; }
@@ -27,7 +27,7 @@ namespace Nehft.Server.Horses
 
         }
 
-        public void Handle(CreateHorseEvent @event)
+        private void Handle(CreateHorseEvent @event)
         {
             Name = @event.Name;
             Type = @event.Type;
@@ -36,44 +36,6 @@ namespace Nehft.Server.Horses
             History = @event.History;
             YearOfBirth = @event.YearOfBirth;
             Address = @event.Address;
-        }
-    }
-
-    public abstract class AggregateEvent<TEntity> : IAggregateEvent where TEntity : Aggregate<TEntity>
-    {
-        protected AggregateEvent(Guid entityId)
-        {
-            EntityId = entityId;
-        }
-        public Guid EntityId { get; }
-
-        public abstract void Accept(TEntity aggregate);
-    }
-
-    public class CreateHorseEvent : AggregateEvent<Horse>
-    {
-        public CreateHorseEvent(Guid id, string name, HorseType type, string breed, string exterior, string history, int yearOfBirth, Address address) : base(id)
-        {
-            Name = name;
-            Type = type;
-            Breed = breed;
-            Exterior = exterior;
-            History = history;
-            YearOfBirth = yearOfBirth;
-            Address = address;
-        }
-
-        public string Name { get; }
-        public HorseType Type { get; }
-        public string Breed { get; }
-        public string Exterior { get; }
-        public string History { get; }
-        public int YearOfBirth { get; }
-        public Address Address { get; }
-
-        public override void Accept(Horse aggregate)
-        {
-            aggregate.Handle(this);
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Linq;
 namespace Nehft.Server.Customers
 {
     [SuppressMessage("ReSharper", "UnusedMember.Local")]
-    public class Customer : Aggregate<Customer>
+    public partial class Customer : Aggregate<Customer>
     {
         private readonly List<Guid> _horses = new List<Guid>();
         public Name Name { get; private set; }
@@ -32,7 +32,7 @@ namespace Nehft.Server.Customers
             RaiseEvent(new AddHorseEvent(Id, horseId));
         }
 
-        public void Handle(CreateCustomerEvent @event)
+        private void Handle(CreateCustomerEvent @event)
         {
             Id = @event.EntityId;
             Name = @event.Name;
@@ -40,7 +40,7 @@ namespace Nehft.Server.Customers
             Address = @event.Address;
         }
 
-        public void Handle(AddHorseEvent @event)
+        private void Handle(AddHorseEvent @event)
         {
             _horses.Add(@event.HorseId);
         }
