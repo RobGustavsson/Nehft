@@ -32,7 +32,7 @@ namespace Nehft.Server.Customers
             RaiseEvent(new AddHorseEvent(Id, horseId));
         }
 
-        private void Handle(CreateCustomerEvent @event)
+        public void Handle(CreateCustomerEvent @event)
         {
             Id = @event.EntityId;
             Name = @event.Name;
@@ -40,7 +40,7 @@ namespace Nehft.Server.Customers
             Address = @event.Address;
         }
 
-        private void Handle(AddHorseEvent @event)
+        public void Handle(AddHorseEvent @event)
         {
             _horses.Add(@event.HorseId);
         }

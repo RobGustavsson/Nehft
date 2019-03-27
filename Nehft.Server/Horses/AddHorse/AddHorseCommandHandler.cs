@@ -19,6 +19,7 @@ namespace Nehft.Server.Horses.AddHorse
 
         public Task<Unit> Handle(AddHorseCommand request, CancellationToken cancellationToken)
         {
+            //TODO: Domain events?
             var customer = _customerRepository.Get(request.Customer);
             var animalId = Guid.NewGuid();
             var animal = new Horse(animalId, request.Name, request.Type, request.Breed, request.Exterior, request.History, request.YearOfBirth, request.Address);

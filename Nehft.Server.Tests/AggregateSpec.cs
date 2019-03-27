@@ -1,4 +1,5 @@
 ﻿using System;
+using Nehft.Server.Horses;
 using Xunit;
 
 namespace Nehft.Server.Tests
@@ -22,16 +23,6 @@ namespace Nehft.Server.Tests
 
             Assert.True(entity.HasHandledEvent);
         }
-
-        [Fact]
-        public void Throws_if_event_is_not_handled()
-        {
-            var entity = new Entity(Guid.NewGuid());
-
-            Action act = () => entity.ApplyUnHandledEvent();
-
-            Assert.Throws<EventNotHandledException>(act);
-        }
     }
 
     public class Entity : Aggregate<Entity>
@@ -52,30 +43,17 @@ namespace Nehft.Server.Tests
         {
             RaiseEvent(new EntityEvent(id));
         }
-
-        public void ApplyUnHandledEvent()
-        {
-            RaiseEvent(new UnhandledEvent(Id));
-        }
     }
 
-    public class EntityEvent : IAggregateEvent
+    public class EntityEvent : AggregateEvent<Entity>
     {
-        public EntityEvent(Guid id)
+        public EntityEvent(Guid id) : base(id)
         {
-            EntityId = id;
         }
 
-        public Guid EntityId { get; }
-    }
-
-    public class UnhandledEvent : IAggregateEvent
-    {
-        public UnhandledEvent(Guid id)
+        public override void Accept(Entity aggregate)
         {
-            EntityId = id;
+            aggregate.Handle(this);
         }
-
-        public Guid EntityId { get; }
     }
 }

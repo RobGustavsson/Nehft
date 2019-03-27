@@ -14,8 +14,6 @@ namespace Nehft.Server.Horses
         public int YearOfBirth { get; private set; }
         public Address Address { get; private set; }
 
-
-
         public Horse(IReadOnlyList<IAggregateEvent> events)
         {
             Id = events.First().EntityId;
@@ -29,7 +27,7 @@ namespace Nehft.Server.Horses
 
         }
 
-        private void Handle(CreateHorseEvent @event)
+        public void Handle(CreateHorseEvent @event)
         {
             Name = @event.Name;
             Type = @event.Type;
@@ -41,11 +39,21 @@ namespace Nehft.Server.Horses
         }
     }
 
-    public class CreateHorseEvent : IAggregateEvent
+    public abstract class AggregateEvent<TEntity> : IAggregateEvent where TEntity : Aggregate<TEntity>
     {
-        public CreateHorseEvent(Guid id, string name, HorseType type, string breed, string exterior, string history, int yearOfBirth, Address address)
+        protected AggregateEvent(Guid entityId)
         {
-            EntityId = id;
+            EntityId = entityId;
+        }
+        public Guid EntityId { get; }
+
+        public abstract void Accept(TEntity aggregate);
+    }
+
+    public class CreateHorseEvent : AggregateEvent<Horse>
+    {
+        public CreateHorseEvent(Guid id, string name, HorseType type, string breed, string exterior, string history, int yearOfBirth, Address address) : base(id)
+        {
             Name = name;
             Type = type;
             Breed = breed;
@@ -55,7 +63,6 @@ namespace Nehft.Server.Horses
             Address = address;
         }
 
-        public Guid EntityId { get; }
         public string Name { get; }
         public HorseType Type { get; }
         public string Breed { get; }
@@ -63,5 +70,10 @@ namespace Nehft.Server.Horses
         public string History { get; }
         public int YearOfBirth { get; }
         public Address Address { get; }
+
+        public override void Accept(Horse aggregate)
+        {
+            aggregate.Handle(this);
+        }
     }
 }

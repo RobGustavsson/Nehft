@@ -1,16 +1,20 @@
 ﻿using System;
+using Nehft.Server.Horses;
 
 namespace Nehft.Server.Customers
 {
-    public class AddHorseEvent : IAggregateEvent
+    public class AddHorseEvent : AggregateEvent<Customer>
     {
-        public Guid EntityId { get; }
         public Guid HorseId { get; }
 
-        public AddHorseEvent(Guid id, Guid horseId)
+        public AddHorseEvent(Guid id, Guid horseId) : base(id)
         {
-            EntityId = id;
             HorseId = horseId;
+        }
+
+        public override void Accept(Customer aggregate)
+        {
+            aggregate.Handle(this);
         }
     }
 }
