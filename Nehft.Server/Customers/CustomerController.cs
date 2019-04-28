@@ -29,7 +29,7 @@ namespace Nehft.Server.Customers
 
         [HttpPost]
         [Route("/api/customer/addHorse")]
-        public async Task<IActionResult> Get(AddHorseDto dto)
+        public async Task<IActionResult> AddHorse(AddHorseDto dto)
         {
             var command = AddHorseCommand.Create(dto.Customer, dto.Name, dto.Type, dto.Breed, dto.YearOfBirth, dto.Exterior, dto.History, dto.Street, dto.HouseNumber, dto.Town, dto.ZipCode);
 
@@ -40,12 +40,10 @@ namespace Nehft.Server.Customers
                     return Ok();
                 },
                 async error => await Task.FromResult(NotFound(error)));
-
-
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(CreateCustomerCommand command)
+        public async Task<IActionResult> Create(CreateCustomerCommand command)
         {
             var result = await _mediator.Send(command);
 
