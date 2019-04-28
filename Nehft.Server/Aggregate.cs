@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Nehft.Server.Horses;
 
 namespace Nehft.Server
 {
     public abstract class Aggregate<T> where T : Aggregate<T>
     {
         private readonly Queue<AggregateEvent<T>> _currentEvents = new Queue<AggregateEvent<T>>();
-        public Guid Id { get; protected set; }
+        public Guid Id { get; set; }
 
         protected void RaiseEvent(AggregateEvent<T> @event)
         {
@@ -18,7 +16,8 @@ namespace Nehft.Server
                 throw new InvalidEventException();
             }
 
-            @event.Accept((T)this);
+            Handle(@event);
+
             _currentEvents.Enqueue(@event);
         }
 
@@ -28,6 +27,11 @@ namespace Nehft.Server
             {
                 RaiseEvent(@event as AggregateEvent<T>);
             }
+        }
+
+        private void Handle(AggregateEvent<T> @event)
+        {
+            @event.Visit((T)this);
         }
 
         public IReadOnlyCollection<IAggregateEvent> Events => _currentEvents.ToList();

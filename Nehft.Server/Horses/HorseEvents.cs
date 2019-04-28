@@ -25,9 +25,15 @@ namespace Nehft.Server.Horses
             public int YearOfBirth { get; }
             public Address Address { get; }
 
-            public override void Accept(Horse aggregate)
+            public override void Visit(Horse aggregate)
             {
-                aggregate.Handle(this);
+                aggregate.Name = Name;
+                aggregate.Type = Type;
+                aggregate.Breed = Breed;
+                aggregate.Exterior = Exterior;
+                aggregate.History = History;
+                aggregate.YearOfBirth = YearOfBirth;
+                aggregate.Address = Address;
             }
         }
     }

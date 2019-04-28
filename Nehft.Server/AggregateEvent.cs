@@ -10,6 +10,6 @@ namespace Nehft.Server
         }
         public Guid EntityId { get; }
 
-        public abstract void Accept(TEntity aggregate);
+        public abstract void Visit(TEntity aggregate);
     }
 }

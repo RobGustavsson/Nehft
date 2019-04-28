@@ -43,17 +43,19 @@ namespace Nehft.Server.Tests
         {
             RaiseEvent(new EntityEvent(id));
         }
+
+        public class EntityEvent : AggregateEvent<Entity>
+        {
+            public EntityEvent(Guid id) : base(id)
+            {
+            }
+
+            public override void Visit(Entity aggregate)
+            {
+                aggregate.HasHandledEvent = true;
+            }
+        }
     }
 
-    public class EntityEvent : AggregateEvent<Entity>
-    {
-        public EntityEvent(Guid id) : base(id)
-        {
-        }
 
-        public override void Accept(Entity aggregate)
-        {
-            aggregate.Handle(this);
-        }
-    }
 }

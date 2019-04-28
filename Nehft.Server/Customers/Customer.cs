@@ -31,18 +31,5 @@ namespace Nehft.Server.Customers
         {
             RaiseEvent(new AddHorseEvent(Id, horseId));
         }
-
-        private void Handle(CreateCustomerEvent @event)
-        {
-            Id = @event.EntityId;
-            Name = @event.Name;
-            Email = @event.Email;
-            Address = @event.Address;
-        }
-
-        private void Handle(AddHorseEvent @event)
-        {
-            _horses.Add(@event.HorseId);
-        }
     }
 }

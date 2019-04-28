@@ -13,12 +13,12 @@ namespace Nehft.Server.Customers
                 HorseId = horseId;
             }
 
-            public override void Accept(Customer aggregate)
+            public override void Visit(Customer aggregate)
             {
-                aggregate.Handle(this);
+                aggregate._horses.Add(HorseId);
             }
         }
-
+        
         private class CreateCustomerEvent : AggregateEvent<Customer>
         {
             public Name Name { get; }
@@ -32,9 +32,12 @@ namespace Nehft.Server.Customers
                 Address = address;
             }
 
-            public override void Accept(Customer aggregate)
+            public override void Visit(Customer aggregate)
             {
-                aggregate.Handle(this);
+                aggregate.Id = EntityId;
+                aggregate.Name = Name;
+                aggregate.Email = Email;
+                aggregate.Address = Address;
             }
         }
     }

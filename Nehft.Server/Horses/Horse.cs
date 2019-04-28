@@ -24,18 +24,6 @@ namespace Nehft.Server.Horses
         {
             Id = id;
             RaiseEvent(new CreateHorseEvent(id, name, type, breed, exterior, history, yearOfBirth, address));
-
-        }
-
-        private void Handle(CreateHorseEvent @event)
-        {
-            Name = @event.Name;
-            Type = @event.Type;
-            Breed = @event.Breed;
-            Exterior = @event.Exterior;
-            History = @event.History;
-            YearOfBirth = @event.YearOfBirth;
-            Address = @event.Address;
         }
     }
 }
