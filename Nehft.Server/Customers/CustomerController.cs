@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Nehft.Server.Customers.CreateCustomer;
 using Nehft.Server.Customers.GetCustomer;
+using Nehft.Server.Customers.GetHorses;
 using Nehft.Server.Horses.AddHorse;
 
 namespace Nehft.Server.Customers
@@ -25,6 +26,15 @@ namespace Nehft.Server.Customers
         {
             var customer = await _mediator.Send(new GetCustomerQuery(customerId));
             return Ok(customer);
+        }
+
+        [HttpGet]
+        [Route("/api/customer/horses/{customerId}")]
+        public async Task<IActionResult> AddHorse(Guid customerId)
+        {
+            var customerHorses = await _mediator.Send(new GetCustomerHorsesQuery(customerId));
+
+            return Ok(customerHorses);
         }
 
         [HttpPost]

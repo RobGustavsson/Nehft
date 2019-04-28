@@ -1,5 +1,4 @@
 ﻿using System;
-using Nehft.Server.Horses;
 using Xunit;
 
 namespace Nehft.Server.Tests
