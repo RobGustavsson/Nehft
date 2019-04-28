@@ -49,7 +49,7 @@ namespace Nehft.Server.Tests
             {
             }
 
-            public override void Visit(Entity aggregate)
+            public override void Update(Entity aggregate)
             {
                 aggregate.HasHandledEvent = true;
             }

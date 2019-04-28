@@ -16,7 +16,7 @@ namespace Nehft.Server
                 throw new InvalidEventException();
             }
 
-            Handle(@event);
+            @event.Update((T)this);
 
             _currentEvents.Enqueue(@event);
         }
@@ -27,11 +27,6 @@ namespace Nehft.Server
             {
                 RaiseEvent(@event as AggregateEvent<T>);
             }
-        }
-
-        private void Handle(AggregateEvent<T> @event)
-        {
-            @event.Visit((T)this);
         }
 
         public IReadOnlyCollection<IAggregateEvent> Events => _currentEvents.ToList();

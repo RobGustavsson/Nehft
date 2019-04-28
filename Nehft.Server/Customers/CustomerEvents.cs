@@ -13,7 +13,7 @@ namespace Nehft.Server.Customers
                 HorseId = horseId;
             }
 
-            public override void Visit(Customer aggregate)
+            public override void Update(Customer aggregate)
             {
                 aggregate._horses.Add(HorseId);
             }
@@ -32,7 +32,7 @@ namespace Nehft.Server.Customers
                 Address = address;
             }
 
-            public override void Visit(Customer aggregate)
+            public override void Update(Customer aggregate)
             {
                 aggregate.Id = EntityId;
                 aggregate.Name = Name;
